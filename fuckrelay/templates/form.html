@@ -1,0 +1,23 @@
+<html>
+{{status}}<br>
+Name: {{name}} <br>
+Phone: {{phone}} <br>
+Gender: {{gender}} <br>
+Age: {{age}} <br>
+<input type = "text" name = "message" id = "messageBlob" />
+<button onclick = "send();">Send</button>
+<script>
+    function send() {
+        var phone = '{{phone}}';
+        var body = document.getElementById("messageBlob").value;
+        if(body.length < 1) {
+            alert("You need to enter a message first!");
+        }
+        else {
+            var url = "/sendmessage?phone=" + phone + '&body=' + body;
+            console.log(url);
+            window.location.href = "/sendmessage?phone=" + phone + '&body=' + body;
+        }
+    }
+</script>
+</html>

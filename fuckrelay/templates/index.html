@@ -1,0 +1,21 @@
+<html>
+<h3>
+<a href = "/sendmessage">Click to Text Voters</a>
+</h3>
+<br>
+Conversations:
+<table border = '2%'>
+{% for voter in sent_to %}
+        <tr>
+            <td>{{voter}}</td>
+            <td><button onclick = "window.location.href='/messages?phone={{voter}}'">view conversation</button></td>
+        </tr>
+{% endfor %}
+</table>
+</html>
+
+<script>
+    setTimeout(function(){
+       window.location.reload(1);
+    }, 5000);
+</script>

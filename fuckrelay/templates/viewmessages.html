@@ -1,0 +1,60 @@
+<html>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous">
+</script>
+Conversation with: {{phone}} <br>
+<div id = "convo">
+<table border = '1%' id = "myTable">
+{% for result in table %}
+    {% if result[1] == True %}
+        <tr style="background-color:lightblue">
+            <td>{{result[0]["from"]}}</td>
+            <td>{{result[0]["body"]}}</td>
+        </tr>
+    {% else %}
+        <tr style="background-color:lightgreen">
+            <td>{{result[0]["to"]}}</td>
+            <td>{{result[0]["body"]}}</td>
+        </tr>
+    {% endif %}
+{% endfor %}
+</table>
+</div>
+<br>
+<input type = "text" name = "message" id = "messageBlob" />
+<button onclick = "send();">Send</button>
+<script>
+    function send() {
+        var phone = '{{phone}}';
+        var body = document.getElementById("messageBlob").value;
+        if(body.length < 1) {
+            alert("You need to enter a message first!");
+        }
+        else {
+            $.ajax("/reply", {
+            data: { phone : phone,
+                    body:body,
+                  },
+            type: 'POST',
+            success: function(response) {
+                console.log(response);
+                if(response.indexOf("successfully") != -1) {
+                    
+                }
+            }
+            });
+        }
+    }
+    setInterval(function(){
+        var phone = '{{phone}}';
+        $.ajax("/getTable", {
+            data: { phone : phone,
+                  },
+            type: 'POST',
+            success: function(response) {
+                document.getElementById("convo").innerHTML = response;
+            }
+        });
+    }, 2000);
+</script>
+</html>
